@@ -1,19 +1,59 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ja">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>べいびぃすたじお</title>
 </head>
 <body>
-    <h1>ここにUI</h1>
-    <script>
+    <center>
+        <h2 width = "100">
+            べいびぃすたじお
+        </h2>
 
-    </script>
+        
+    </center>
+    
+    
 
 </body>
+<div id="checkboxes"></div>
+
 </html>
 
+<script type = "module">
+    for (let i = 0; i < 3; i++) {
+        for(let j=0;j<8;j++){
+            const inp = document.createElement("input");
+            inp.className = `form-check-input${j + 8*i}`;
+            inp.type = "checkbox";
+            checkboxes.appendChild(inp);
+            console.log(inp);
+           
+        } 
+        const br = document.createElement("br");
+        checkboxes.appendChild(br);       
+    }
+    
+</script>
+    
+
 <style>
+body {
+  font-family: sans-serif;
+  text-align: center;
+  background-color: gray;
+}
+h2 {
+  font-size: 6vw;
+  background-color: white;
+  width: 1000px;
+  
+}
+input{
+    width:100px;
+    height:100px;
+    background:#000;
+}
 
 </style>
