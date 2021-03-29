@@ -3,77 +3,90 @@
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/tone/13.0.1/Tone.min.js"></script>
   </head>
   <body>
-    <form class="form1" name="form1">
-      <input type="checkbox" class="ch1" />
-      <input type="checkbox" class="ch1" />
-      <input type="checkbox" class="ch1" />
-      <input type="checkbox" class="ch1" />
-      <input type="checkbox" class="ch1" />
-      <input type="checkbox" class="ch1" />
-      <input type="checkbox" class="ch1" />
-      <input type="checkbox" class="ch1" />
-      <input type="checkbox" class="ch1" />
-      <input type="checkbox" class="ch1" />
-      <input type="checkbox" class="ch1" />
-      <input type="checkbox" class="ch1" />
-      <input type="checkbox" class="ch1" />
-      <input type="checkbox" class="ch1" />
-      <input type="checkbox" class="ch1" />
-      <input type="checkbox" class="ch1" /><br/>
-      <input type="checkbox" class="ch1" />
-      <input type="checkbox" class="ch1" />
-      <input type="checkbox" class="ch1" />
-      <input type="checkbox" class="ch1" />
-      <input type="checkbox" class="ch1" />
-      <input type="checkbox" class="ch1" />
-      <input type="checkbox" class="ch1" />
-      <input type="checkbox" class="ch1" />
-      <input type="checkbox" class="ch1" />
-      <input type="checkbox" class="ch1" />
-      <input type="checkbox" class="ch1" />
-      <input type="checkbox" class="ch1" />
-      <input type="checkbox" class="ch1" />
-      <input type="checkbox" class="ch1" />
-      <input type="checkbox" class="ch1" />
-      <input type="checkbox" class="ch1" /><br/>
-      <input type="checkbox" class="ch1" />
-      <input type="checkbox" class="ch1" />
-      <input type="checkbox" class="ch1" />
-      <input type="checkbox" class="ch1" />
-      <input type="checkbox" class="ch1" />
-      <input type="checkbox" class="ch1" />
-      <input type="checkbox" class="ch1" />
-      <input type="checkbox" class="ch1" />
-      <input type="checkbox" class="ch1" />
-      <input type="checkbox" class="ch1" />
-      <input type="checkbox" class="ch1" />
-      <input type="checkbox" class="ch1" />
-      <input type="checkbox" class="ch1" />
-      <input type="checkbox" class="ch1" />
-      <input type="checkbox" class="ch1" />
-      <input type="checkbox" class="ch1" /><br/>
-    </form>
+    <div id="Drum_box">
+      <h1>
+          ドラム<br>
+      </h1>
+    </div>
 
+    <div id="Synth_box">
+      <h1>
+          シンセサイザー<br>
+      <h1>
+    </div>
     <script>
+      const drum_num = 3;   //ドラム列数
+      const synth_num = 8;  //シンセ列数
+
+      //チェックボックス生成
+      for(let i = 0; i < drum_num; i++)
+      {
+        for(let j = 0; j < 16; j++)
+        {
+            const inpD = document.createElement("input");
+            inpD.className = 'drum';
+            inpD.type = "checkbox";
+            Drum_box.appendChild(inpD);
+        }
+        const br = document.createElement("br");
+        Drum_box.appendChild(br);       
+      }
+      for(let i = 0; i < synth_num; i++)
+      {
+        for(let j = 0; j < 16; j++)
+        {
+            const inpD = document.createElement("input");
+            inpD.className = 'synth';
+            inpD.type = "checkbox";
+            Synth_box.appendChild(inpD);
+        }
+        const br = document.createElement("br");
+        Synth_box.appendChild(br);       
+      }
+
+      //スケール
+      var scale = ["C3", "D3", "E3", "F3", "G3", "A3", "B3", "C4"];
+      //シンセサイザー等の設定
       const synth = new Tone.MembraneSynth().toMaster();
+      const plucky = new Tone.FMSynth().toMaster();
+      const noiseSynth = new Tone.NoiseSynth().toMaster();
+      const monosynth = new Tone.MonoSynth({
+        oscillator: {
+          type: "sawtooth"
+        },
+        envelope: {
+          attack: 0.05
+        }
+      }).toMaster();
+
+
       var step = 0;
 
       var step_update = function()
       {
+        const drum_state = Array.prototype.slice.call(document.getElementsByClassName('drum'));
+        if(drum_state[step].checked == true)
+        {
+        }
+        if(drum_state[step+15].checked == true)
+        {
+          noiseSynth.triggerAttackRelease("8n", 0.5);
+        }
+        if(drum_state[step+31].checked == true)
+        {
+          synth.triggerAttackRelease("C2", "2n");
+        }
 
-        const checkbox = document.getElementsByClassName('ch1');
-        const checkbox_state = Array.prototype.slice.call(checkbox);
-          if(checkbox_state[step].checked == true){
-            synth.triggerAttackRelease("C4", "2n");
+        const synth_state = Array.prototype.slice.call(document.getElementsByClassName('synth'));
+        for(let i = 0; i < synth_num; i++)
+        {
+          if(synth_state[step+16*i].checked == true)
+          {
+            monosynth.triggerAttackRelease(scale[synth_num-i-1], "8n");
           }
-          if(checkbox_state[step+15].checked == true){
-            synth.triggerAttackRelease("C2", "2n");
-          }
-          if(checkbox_state[step+31].checked == true){
-            synth.triggerAttackRelease("C5", "2n");
-          }
-          console.log(checkbox_state[step].checked);
-          step++;
+        }
+
+        step++;
         if(step > 15)
         {
           step = 0;
