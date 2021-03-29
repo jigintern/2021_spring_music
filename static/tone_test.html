@@ -1,8 +1,20 @@
-<html>
+<!DOCTYPE html>
+<html lang="ja">
   <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel=”icon” type=”image/png” href=“static/img/BabyStudioFavicon.png”>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/tone/13.0.1/Tone.min.js"></script>
+    <title>べいびぃすたじお</title>
   </head>
+    
   <body>
+    <center>
+        <h2 width = "100">
+            べいびぃすたじお
+        </h2>
+    </center>
+
     <div id="Drum_box">
       <h1>
           ドラム<br>
@@ -17,11 +29,13 @@
     <script>
       const drum_num = 3;   //ドラム列数
       const synth_num = 8;  //シンセ列数
+      const beat_num = 8;   //ビート数
+      var   BPM = 120.;     //BPM
 
       //チェックボックス生成
       for(let i = 0; i < drum_num; i++)
       {
-        for(let j = 0; j < 16; j++)
+        for(let j = 0; j < beat_num; j++)
         {
             const inpD = document.createElement("input");
             inpD.className = 'drum';
@@ -33,7 +47,7 @@
       }
       for(let i = 0; i < synth_num; i++)
       {
-        for(let j = 0; j < 16; j++)
+        for(let j = 0; j < beat_num; j++)
         {
             const inpD = document.createElement("input");
             inpD.className = 'synth';
@@ -62,38 +76,64 @@
 
       var step = 0;
 
+      //setInterval コールバック
       var step_update = function()
       {
         const drum_state = Array.prototype.slice.call(document.getElementsByClassName('drum'));
         if(drum_state[step].checked == true)
         {
         }
-        if(drum_state[step+15].checked == true)
+        if(drum_state[step+beat_num-1].checked == true)
         {
           noiseSynth.triggerAttackRelease("8n", 0.5);
         }
-        if(drum_state[step+31].checked == true)
+        if(drum_state[step+beat_num*2-1].checked == true)
         {
           synth.triggerAttackRelease("C2", "2n");
         }
-
         const synth_state = Array.prototype.slice.call(document.getElementsByClassName('synth'));
+
         for(let i = 0; i < synth_num; i++)
         {
-          if(synth_state[step+16*i].checked == true)
+          if(synth_state[step+beat_num*i].checked == true)
           {
             monosynth.triggerAttackRelease(scale[synth_num-i-1], "8n");
           }
         }
 
         step++;
-        if(step > 15)
+        if(step > beat_num-1)
         {
           step = 0;
         }
       };
 
-      setInterval(step_update, 100);
+      //setIntervalの設定
+      setInterval(step_update, 120./8./BPM*1000);
     </script>
+
+    <style>
+    body {
+      font-family: sans-serif;
+      text-align: center;
+      background-color: gray;
+    }
+    h1{
+      font-size: 3vw;
+      background-color: white;
+      width:200px;
+    }
+    h2 {
+      font-size: 6vw;
+      background-color: white;
+      width: 1000px;
+      
+    }
+    input{
+        width:70px;
+        height:70px;
+    }
+
+    </style>
   </body>
 </html>
