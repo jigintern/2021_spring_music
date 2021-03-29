@@ -3,9 +3,84 @@
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/tone/13.0.1/Tone.min.js"></script>
   </head>
   <body>
+    <form class="form1" name="form1">
+      <input type="checkbox" class="ch1" />
+      <input type="checkbox" class="ch1" />
+      <input type="checkbox" class="ch1" />
+      <input type="checkbox" class="ch1" />
+      <input type="checkbox" class="ch1" />
+      <input type="checkbox" class="ch1" />
+      <input type="checkbox" class="ch1" />
+      <input type="checkbox" class="ch1" />
+      <input type="checkbox" class="ch1" />
+      <input type="checkbox" class="ch1" />
+      <input type="checkbox" class="ch1" />
+      <input type="checkbox" class="ch1" />
+      <input type="checkbox" class="ch1" />
+      <input type="checkbox" class="ch1" />
+      <input type="checkbox" class="ch1" />
+      <input type="checkbox" class="ch1" /><br/>
+      <input type="checkbox" class="ch1" />
+      <input type="checkbox" class="ch1" />
+      <input type="checkbox" class="ch1" />
+      <input type="checkbox" class="ch1" />
+      <input type="checkbox" class="ch1" />
+      <input type="checkbox" class="ch1" />
+      <input type="checkbox" class="ch1" />
+      <input type="checkbox" class="ch1" />
+      <input type="checkbox" class="ch1" />
+      <input type="checkbox" class="ch1" />
+      <input type="checkbox" class="ch1" />
+      <input type="checkbox" class="ch1" />
+      <input type="checkbox" class="ch1" />
+      <input type="checkbox" class="ch1" />
+      <input type="checkbox" class="ch1" />
+      <input type="checkbox" class="ch1" /><br/>
+      <input type="checkbox" class="ch1" />
+      <input type="checkbox" class="ch1" />
+      <input type="checkbox" class="ch1" />
+      <input type="checkbox" class="ch1" />
+      <input type="checkbox" class="ch1" />
+      <input type="checkbox" class="ch1" />
+      <input type="checkbox" class="ch1" />
+      <input type="checkbox" class="ch1" />
+      <input type="checkbox" class="ch1" />
+      <input type="checkbox" class="ch1" />
+      <input type="checkbox" class="ch1" />
+      <input type="checkbox" class="ch1" />
+      <input type="checkbox" class="ch1" />
+      <input type="checkbox" class="ch1" />
+      <input type="checkbox" class="ch1" />
+      <input type="checkbox" class="ch1" /><br/>
+    </form>
+
     <script>
       const synth = new Tone.MembraneSynth().toMaster();
-      synth.triggerAttackRelease("C4", "16n");
+      var step = 0;
+
+      var step_update = function()
+      {
+
+        const checkbox = document.getElementsByClassName('ch1');
+        const checkbox_state = Array.prototype.slice.call(checkbox);
+          if(checkbox_state[step].checked == true){
+            synth.triggerAttackRelease("C4", "2n");
+          }
+          if(checkbox_state[step+15].checked == true){
+            synth.triggerAttackRelease("C2", "2n");
+          }
+          if(checkbox_state[step+31].checked == true){
+            synth.triggerAttackRelease("C5", "2n");
+          }
+          console.log(checkbox_state[step].checked);
+          step++;
+        if(step > 15)
+        {
+          step = 0;
+        }
+      };
+
+      setInterval(step_update, 100);
     </script>
   </body>
 </html>
