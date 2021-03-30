@@ -27,6 +27,7 @@
       <h1>
     </div>
     <input type="button" value="start/stop" id="btn_startstop">
+    <button id=btn_write>保存</button>
 
 
 
@@ -96,6 +97,8 @@
 
 
       let step = 0;
+      var drum_check = [];
+      var synth_check = [];
 
       //setInterval コールバック
       let step_update = function()
@@ -106,14 +109,17 @@
         {
           //sampler.triggerAttackRelease(["C2", "E2", "G2", "B2"], 0.5);
           drum.triggerAttackRelease("A1", "8n");
+          drum_check[step] = 1 
         }
         if(drum_state[step+beat_num].checked == true)
         {
           drum.triggerAttackRelease("A2", "8n");
+          drum_check[step+beat_num] = 1
         }
         if(drum_state[step+beat_num*2].checked == true)
         {
           synth.triggerAttackRelease("C1", "2n");
+          drum_check[step+beat_num*2] = 1
         }
 
         const synth_state = Array.prototype.slice.call(document.getElementsByClassName('synth'));
@@ -123,6 +129,7 @@
           {
             monosynth.triggerAttackRelease(scale[synth_num-i], "8n");
             console.log(i);
+            synth_check[step+beat_num*i] = 1
           }
         }
         step++;
@@ -149,8 +156,8 @@
 
       btn_write.onclick = async () => {
         const item = {
-            name: synth,
-            drum: drum,
+            drum: drum_check,
+            synth: synth_check,
         };
         if (await fetchJSON("api/add", item) == "ok") {
             window.location.reload();

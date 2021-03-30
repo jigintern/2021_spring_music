@@ -2,15 +2,15 @@ import { Server } from "https://js.sabae.cc/Server.js";
 import { jsonfs } from "https://js.sabae.cc/jsonfs.js";
 
 const datafn = "data.json";
-let data = jsonfs.read(datafn) || [];
+let data2 = jsonfs.read(datafn) || [];
 
 class MyServer extends Server {
   api(path, req) {
     if (path == "/api/list") {
-      return data;
+      return data2;
     } else if (path == "/api/add") {
-      data.push(req);
-      jsonfs.write(datafn, data);
+      data2.push(req);
+      jsonfs.write(datafn, data2);
       return "ok";
     }
   }
