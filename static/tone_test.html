@@ -26,17 +26,15 @@
           シンセサイザー<br>
       <h1>
     </div>
-    <script>
+    <script type=module>
       const drum_num = 3;   //ドラム列数
       const synth_num = 8;  //シンセ列数
       const beat_num = 8;   //ビート数
-      var   BPM = 120.;     //BPM
+      const BPM = 120.;     //BPM
 
       //チェックボックス生成
-      for(let i = 0; i < drum_num; i++)
-      {
-        for(let j = 0; j < beat_num; j++)
-        {
+      for (let i = 0; i < drum_num; i++) {
+        for (let j = 0; j < beat_num; j++) {
             const inpD = document.createElement("input");
             inpD.className = 'drum';
             inpD.type = "checkbox";
@@ -45,10 +43,8 @@
         const br = document.createElement("br");
         Drum_box.appendChild(br);       
       }
-      for(let i = 0; i < synth_num; i++)
-      {
-        for(let j = 0; j < beat_num; j++)
-        {
+      for (let i = 0; i < synth_num; i++) {
+        for (let j = 0; j < beat_num; j++) {
             const inpD = document.createElement("input");
             inpD.className = 'synth';
             inpD.type = "checkbox";
@@ -59,7 +55,7 @@
       }
 
       //スケール
-      var scale = ["C3", "D3", "E3", "F3", "G3", "A3", "B3", "C4"];
+      const scale = ["C3", "D3", "E3", "F3", "G3", "A3", "B3", "C4"];
       //シンセサイザー等の設定
       const synth = new Tone.MembraneSynth().toMaster();
       const plucky = new Tone.FMSynth().toMaster();
@@ -73,43 +69,35 @@
         }
       }).toMaster();
 
-
-      var step = 0;
+      let step = 0;
 
       //setInterval コールバック
-      var step_update = function()
-      {
+      const step_update = function() {
         const drum_state = Array.prototype.slice.call(document.getElementsByClassName('drum'));
-        if(drum_state[step].checked == true)
-        {
+        if (drum_state[step].checked == true) {
         }
-        if(drum_state[step+beat_num-1].checked == true)
-        {
+        if (drum_state[step + beat_num-1].checked == true) {
           noiseSynth.triggerAttackRelease("8n", 0.5);
         }
-        if(drum_state[step+beat_num*2-1].checked == true)
-        {
+        if (drum_state[step + beat_num * 2].checked == true) {
           synth.triggerAttackRelease("C2", "2n");
         }
         const synth_state = Array.prototype.slice.call(document.getElementsByClassName('synth'));
 
-        for(let i = 0; i < synth_num; i++)
-        {
-          if(synth_state[step+beat_num*i].checked == true)
-          {
-            monosynth.triggerAttackRelease(scale[synth_num-i-1], "8n");
+        for (let i = 0; i < synth_num; i++) {
+          if(synth_state[step+beat_num * i].checked == true) {
+            monosynth.triggerAttackRelease(scale[synth_num - i - 1], "8n");
           }
         }
 
         step++;
-        if(step > beat_num-1)
-        {
+        if (step > beat_num - 1) {
           step = 0;
         }
       };
 
       //setIntervalの設定
-      setInterval(step_update, 120./8./BPM*1000);
+      setInterval(step_update, 120. / 8. / BPM * 1000);
     </script>
 
     <style>
