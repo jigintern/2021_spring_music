@@ -11,8 +11,12 @@
     
   <body>
     <center>
+<<<<<<< HEAD
         <h2 width = "0">
           <!-べいびぃすたじお ->
+=======
+        <h2 width = "100">
+>>>>>>> cff19fd705147af0de30b7fa4a3d5240e2253973
           <img src="/img/BabyStudioLogo.png" width="900">
         </h2>
     </center>
@@ -68,10 +72,10 @@
 
       //スケール
       let scale = ["","C3", "D3", "E3", "F3", "G3", "A3", "B3", "C4"];
+      let chord = [["F2","A2","C3"],["G2","B2","D3"],["E2","G2","B2"],["A2","C3","E3"]];
       //シンセサイザー等の設定
       const synth = new Tone.MembraneSynth().toDestination();
-      const plucky = new Tone.FMSynth().toDestination();
-      const noiseSynth = new Tone.NoiseSynth().toDestination();
+      const polysynth = new Tone.PolySynth().toDestination();
       const monosynth = new Tone.MonoSynth({
         oscillator: {
           type: "sawtooth"
@@ -81,16 +85,20 @@
           release:0.4
         }
       }).toDestination();
-
       const drum = new Tone.Sampler({
         urls: {
           D2: "/sound/snare.wav",
           E2: "/sound/hihat.wav",
         },
       }).toDestination();
+      synth.volume.value =  -6;
+      monosynth.volume.value =  -6;
+      polysynth.volume.value =  -6;
+      drum.volume.value =  -6;
 
 
       let step = 0;
+      let chord_step = 0;
       var drum_check = [];
       var synth_check = [];
 
@@ -98,21 +106,32 @@
       let step_update = function()
       {
         const drum_array = Array.prototype.slice.call(document.getElementsByClassName('drum'));
-
         let drum_state = [];
         for (let i = 0; i < drum_array.length; i++)
         {
           drum_state.push(drum_array[i].checked == true);
+<<<<<<< HEAD
 
+=======
+>>>>>>> cff19fd705147af0de30b7fa4a3d5240e2253973
           //sampler.triggerAttackRelease(["C2", "E2", "G2", "B2"], 0.5);
           drum.triggerAttackRelease("A1", "8n");
           drum_check[step] = 1 
         }
 
+        const synth_array = Array.prototype.slice.call(document.getElementsByClassName('synth'));
+        let synth_state = [];
+        for (let i = 0; i < synth_array.length; i++)
+        {
+          synth_state.push(synth_array[i].checked == true);
+        }
+        console.log(synth_state);
+
+
         if(drum_state[step] == true)
         {
           drum.triggerAttackRelease("A2", "8n");
-          drum_check[step+beat_num] = 1
+          drum_check[step+beat_num] = 1;
         }
         if(drum_state[step+beat_num] == true)
         {
@@ -121,7 +140,7 @@
         if(drum_state[step+beat_num*2] == true)
         {
           synth.triggerAttackRelease("C1", "2n");
-          drum_check[step+beat_num*2] = 1
+          drum_check[step+beat_num*2] = 1;
         }
 
 
@@ -139,12 +158,27 @@
           if(synth_state[step+beat_num*i] == true)
           {
             monosynth.triggerAttackRelease(scale[synth_num-i], "8n");
+<<<<<<< HEAD
 
             synth_check[step+beat_num*i] = 1;
 
             console.log(i);
             synth_check[step+beat_num*i] = 1
 
+=======
+            //synth_check[step+beat_num*i] = 1
+          }
+        }
+
+        if(step == 0){
+          polysynth.triggerAttackRelease(chord[chord_step], 1.5);
+          chord_step++;
+        }
+
+            synth_check[step+beat_num*i] = 1;
+            console.log(i);
+            synth_check[step+beat_num*i] = 1
+>>>>>>> cff19fd705147af0de30b7fa4a3d5240e2253973
           }
         }
         console.log(synth_check);
@@ -153,19 +187,22 @@
         {
           step = 0;
         }
+        if(chord_step > 3)
+        {
+          chord_step = 0
+        }
       };
-
 
 
       //setIntervalの設定
       function startInterval() {
-          cnt ++;
-          if (cnt % 2 == 1){
-            intervalID = setInterval(step_update, 120./8./BPM*1000);
-          } else if(cnt % 2 ==0){
-            clearInterval(intervalID);
-            step = 0;
-          }
+        cnt ++;
+        if (cnt % 2 == 1){
+          intervalID = setInterval(step_update, 120./8./BPM*1000);
+        } else if(cnt % 2 ==0){
+          clearInterval(intervalID);
+          step = 0;
+        }
       }
 
       btn_startstop.onclick = startInterval;
