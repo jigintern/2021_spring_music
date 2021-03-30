@@ -26,11 +26,19 @@
           シンセサイザー<br>
       <h1>
     </div>
-    <script type=module>
+
+    <br>
+    <br>
+
+    <input type="button" value="start/stop" id="btn_startstop">
+    
+    <script type="module">
       const drum_num = 3;   //ドラム列数
       const synth_num = 8;  //シンセ列数
       const beat_num = 8;   //ビート数
       const BPM = 120.;     //BPM
+      let cnt=0;
+      let intervalID;
 
       //チェックボックス生成
       for (let i = 0; i < drum_num; i++) {
@@ -97,7 +105,16 @@
       };
 
       //setIntervalの設定
-      setInterval(step_update, 120. / 8. / BPM * 1000);
+      function startInterval() {
+          cnt ++;
+          if (cnt % 2 == 1){
+            intervalID = setInterval(step_update, 120./8./BPM*1000);
+          } else if(cnt % 2 ==0){
+            clearInterval(intervalID);
+          }
+      }
+
+      btn_startstop.onclick = startInterval;
     </script>
 
     <style>
