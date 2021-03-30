@@ -5,13 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/png" src="/img/BabyStudioFavicon.png">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.7.77/Tone.js"></script>
+    <script src="https://code.jquery.com/jquery-3.0.0.min.js"></script>
     <title>べいびぃすたじお</title>
   </head>
     
   <body>
     <center>
         <h2 width = "100">
-            べいびぃすたじお
+          <!-べいびぃすたじお ->
+          <img src="/img/BabyStudioLogo.png" width="900">
         </h2>
     </center>
 
@@ -27,8 +29,6 @@
       <h1>
     </div>
     <input type="button" value="start/stop" id="btn_startstop">
-
-
 
     <script>
       const drum_num = 3;   //ドラム列数
@@ -75,15 +75,9 @@
           type: "sawtooth"
         },
         envelope: {
-          attack: 0.3
+          attack: 0.3,
+          release:0.4
         }
-      }).toDestination();
-      const sampler = new Tone.Sampler({
-        urls: {
-          A1: "A1.mp3",
-          A2: "A2.mp3",
-        },
-        baseUrl: "https://tonejs.github.io/audio/casio/",
       }).toDestination();
 
       const drum = new Tone.Sampler({
@@ -99,29 +93,43 @@
       //setInterval コールバック
       let step_update = function()
       {
-        Tone.start();
-        const drum_state = Array.prototype.slice.call(document.getElementsByClassName('drum'));
-        if(drum_state[step].checked == true)
+        const drum_array = Array.prototype.slice.call(document.getElementsByClassName('drum'));
+
+        let drum_state = [];
+        for (let i = 0; i < drum_array.length; i++)
         {
-          //sampler.triggerAttackRelease(["C2", "E2", "G2", "B2"], 0.5);
-          drum.triggerAttackRelease("A1", "8n");
+          drum_state.push(drum_array[i].checked == true);
         }
-        if(drum_state[step+beat_num].checked == true)
+        console.log(drum_state);
+
+        if(drum_state[step] == true)
         {
           drum.triggerAttackRelease("A2", "8n");
         }
-        if(drum_state[step+beat_num*2].checked == true)
+        if(drum_state[step+beat_num] == true)
+        {
+          drum.triggerAttackRelease("A1", "8n");
+        }
+        if(drum_state[step+beat_num*2] == true)
         {
           synth.triggerAttackRelease("C1", "2n");
         }
 
-        const synth_state = Array.prototype.slice.call(document.getElementsByClassName('synth'));
+
+        const synth_array = Array.prototype.slice.call(document.getElementsByClassName('synth'));
+
+        let synth_state = [];
+        for (let i = 0; i < synth_array.length; i++)
+        {
+          synth_state.push(synth_array[i].checked == true);
+        }
+        console.log(synth_state);
+
         for(let i = 0; i < synth_num; i++)
         {
-          if(synth_state[step+beat_num*i].checked == true)
+          if(synth_state[step+beat_num*i] == true)
           {
             monosynth.triggerAttackRelease(scale[synth_num-i], "8n");
-            console.log(i);
           }
         }
         step++;
@@ -130,6 +138,8 @@
           step = 0;
         }
       };
+
+
 
       //setIntervalの設定
       function startInterval() {
