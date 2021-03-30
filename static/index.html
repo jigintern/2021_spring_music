@@ -32,14 +32,7 @@
     <button id=btn_write>保存</button>
     <div><a href="http://localhost:8008/api/list">データ</a></div>
 
-<<<<<<< HEAD
-    <script>
-=======
-
-
-
     <script type="module">
->>>>>>> 1b9cfe8ee249a04420eadb3f0344b9523c3d4eb1
       const drum_num = 3;   //ドラム列数
       const synth_num = 8;  //シンセ列数
       const beat_num = 16;   //ビート数
@@ -109,15 +102,8 @@
         let drum_state = [];
         for (let i = 0; i < drum_array.length; i++)
         {
-<<<<<<< HEAD
           drum_state.push(drum_array[i].checked == true);
-=======
-          //sampler.triggerAttackRelease(["C2", "E2", "G2", "B2"], 0.5);
-          drum.triggerAttackRelease("A1", "8n");
-          drum_check[step] = 1 
->>>>>>> 1b9cfe8ee249a04420eadb3f0344b9523c3d4eb1
         }
-        console.log(drum_state);
 
         if(drum_state[step] == true)
         {
@@ -142,20 +128,17 @@
         {
           synth_state.push(synth_array[i].checked == true);
         }
-        console.log(synth_state);
+        
 
         for(let i = 0; i < synth_num; i++)
         {
           if(synth_state[step+beat_num*i] == true)
           {
             monosynth.triggerAttackRelease(scale[synth_num-i], "8n");
-<<<<<<< HEAD
-=======
-            console.log(i);
-            synth_check[step+beat_num*i] = 1
->>>>>>> 1b9cfe8ee249a04420eadb3f0344b9523c3d4eb1
+            synth_check[step+beat_num*i] = 1;
           }
         }
+        console.log(synth_check);
         step++;
         if(step > beat_num-1)
         {
