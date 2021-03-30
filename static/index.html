@@ -33,6 +33,7 @@
     <button id=btn_write>保存</button>
     <a href="http://localhost:8008/api/list">データはこちら</a>
 
+
     <script type="module">
       const drum_num = 3;   //ドラム列数
       const synth_num = 8;  //シンセ列数
@@ -138,8 +139,6 @@
         }
 
 
-        
-
         for(let i = 0; i < synth_num; i++)
         {
           if(synth_state[step+beat_num*i] == true)
@@ -160,12 +159,6 @@
           chord_step++;
         }
 
-            synth_check[step+beat_num*i] = 1;
-            console.log(i);
-            synth_check[step+beat_num*i] = 1
-          }
-        }
-        console.log(synth_check);
         step++;
         if(step > beat_num-1)
         {
