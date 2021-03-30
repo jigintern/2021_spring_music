@@ -105,15 +105,9 @@
         for (let i = 0; i < drum_array.length; i++)
         {
           drum_state.push(drum_array[i].checked == true);
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
           //sampler.triggerAttackRelease(["C2", "E2", "G2", "B2"], 0.5);
           drum.triggerAttackRelease("A1", "8n");
->>>>>>> e925d4b1c1173bb9b59213a853a365e78f1f614f
           drum_check[step] = 1 
->>>>>>> refs/remotes/origin/main
         }
 
         const synth_array = Array.prototype.slice.call(document.getElementsByClassName('synth'));
@@ -140,8 +134,6 @@
           drum_check[step+beat_num*2] = 1;
         }
 
-<<<<<<< HEAD
-=======
 
         const synth_array = Array.prototype.slice.call(document.getElementsByClassName('synth'));
 
@@ -152,13 +144,11 @@
         }
         
 
->>>>>>> e925d4b1c1173bb9b59213a853a365e78f1f614f
         for(let i = 0; i < synth_num; i++)
         {
           if(synth_state[step+beat_num*i] == true)
           {
             monosynth.triggerAttackRelease(scale[synth_num-i], "8n");
-<<<<<<< HEAD
             //synth_check[step+beat_num*i] = 1
           }
         }
@@ -168,17 +158,12 @@
           chord_step++;
         }
 
-=======
-<<<<<<< HEAD
             synth_check[step+beat_num*i] = 1;
-=======
             console.log(i);
             synth_check[step+beat_num*i] = 1
->>>>>>> refs/remotes/origin/main
           }
         }
         console.log(synth_check);
->>>>>>> e925d4b1c1173bb9b59213a853a365e78f1f614f
         step++;
         if(step > beat_num-1)
         {
