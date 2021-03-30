@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel=”icon” type=”image/png” href=“static/img/BabyStudioFavicon.png”>
+    <link rel="icon" type="image/png" src="/img/BabyStudioFavicon.png">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.7.77/Tone.js"></script>
     <title>べいびぃすたじお</title>
   </head>
@@ -26,15 +26,17 @@
           シンセサイザー<br>
       <h1>
     </div>
+    <input type="button" value="start/stop" id="btn_startstop">
+
+
+
     <script>
       const drum_num = 3;   //ドラム列数
       const synth_num = 8;  //シンセ列数
       const beat_num = 16;   //ビート数
       let   BPM = 120.;     //BPM
-      window.onload = function() {
-        var context = new AudioContext();
-        context.resume();
-      }
+      let cnt=0;
+      let intervalID;
 
       //チェックボックス生成
       for(let i = 0; i < drum_num; i++)
@@ -104,11 +106,11 @@
           //sampler.triggerAttackRelease(["C2", "E2", "G2", "B2"], 0.5);
           drum.triggerAttackRelease("A1", "8n");
         }
-        if(drum_state[step+beat_num-1].checked == true)
+        if(drum_state[step+beat_num].checked == true)
         {
           drum.triggerAttackRelease("A2", "8n");
         }
-        if(drum_state[step+beat_num*2-1].checked == true)
+        if(drum_state[step+beat_num*2].checked == true)
         {
           synth.triggerAttackRelease("C1", "2n");
         }
@@ -130,7 +132,17 @@
       };
 
       //setIntervalの設定
-      setInterval(step_update, 120./8./BPM*1000);
+      function startInterval() {
+          cnt ++;
+          if (cnt % 2 == 1){
+            intervalID = setInterval(step_update, 120./8./BPM*1000);
+          } else if(cnt % 2 ==0){
+            clearInterval(intervalID);
+            step = 0;
+          }
+      }
+
+      btn_startstop.onclick = startInterval;
     </script>
 
     <style>
