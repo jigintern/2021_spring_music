@@ -11,12 +11,9 @@
     
   <body>
     <center>
-<<<<<<< HEAD
         <h2 width = "0">
           <!-べいびぃすたじお ->
-=======
         <h2 width = "100">
->>>>>>> cff19fd705147af0de30b7fa4a3d5240e2253973
           <img src="/img/BabyStudioLogo.png" width="900">
         </h2>
     </center>
@@ -110,10 +107,7 @@
         for (let i = 0; i < drum_array.length; i++)
         {
           drum_state.push(drum_array[i].checked == true);
-<<<<<<< HEAD
 
-=======
->>>>>>> cff19fd705147af0de30b7fa4a3d5240e2253973
           //sampler.triggerAttackRelease(["C2", "E2", "G2", "B2"], 0.5);
           drum.triggerAttackRelease("A1", "8n");
           drum_check[step] = 1 
@@ -144,8 +138,6 @@
         }
 
 
-        const synth_array = Array.prototype.slice.call(document.getElementsByClassName('synth'));
-
         let synth_state = [];
         for (let i = 0; i < synth_array.length; i++)
         {
@@ -158,14 +150,12 @@
           if(synth_state[step+beat_num*i] == true)
           {
             monosynth.triggerAttackRelease(scale[synth_num-i], "8n");
-<<<<<<< HEAD
 
             synth_check[step+beat_num*i] = 1;
 
             console.log(i);
             synth_check[step+beat_num*i] = 1
 
-=======
             //synth_check[step+beat_num*i] = 1
           }
         }
@@ -178,7 +168,6 @@
             synth_check[step+beat_num*i] = 1;
             console.log(i);
             synth_check[step+beat_num*i] = 1
->>>>>>> cff19fd705147af0de30b7fa4a3d5240e2253973
           }
         }
         console.log(synth_check);
