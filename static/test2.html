@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel=”icon” type=”image/png” href=“static/img/BabyStudioFavicon.png”>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/tone/13.0.1/Tone.min.js"></script>
+    <title>べいびぃすたじお</title>
+  </head>
+    
+  <body>
+    <center>
+        <h2 width = "100">
+            べいびぃすたじお
+        </h2>
+    </center>
+
+    <div id="Drum_box">
+      <h1>
+          ドラム<br>
+      </h1>
+    </div>
+
+    <div id="Synth_box">
+      <h1>
+          シンセサイザー<br>
+      <h1>
+    </div>
+
+    <br>
+    <br>
+
+    <input type="button" value="start/stop" onclick="startInterval();">
+
+    <script type="module">
+      const drum_num = 3;   //ドラム列数
+      const synth_num = 8;  //シンセ列数
+      const beat_num = 8;   //ビート数
+      const BPM = 120.;     //BPM
+      let cnt=0;
+      let intervalID;
+
+      //チェックボックス生成
+      for (let i = 0; i < drum_num; i++) {
+        for (let j = 0; j < beat_num; j++) {
+            const inpD = document.createElement("input");
+            inpD.className = 'drum';
+            inpD.type = "checkbox";
+            Drum_box.appendChild(inpD);
+        }
+        const br = document.createElement("br");
+        Drum_box.appendChild(br);       
+      }
+      for (let i = 0; i < synth_num; i++) {
+        for (let j = 0; j < beat_num; j++) {
+            const inpD = document.createElement("input");
+            inpD.className = 'synth';
+            inpD.type = "checkbox";
+            Synth_box.appendChild(inpD);
+        }
+        const br = document.createElement("br");
+        Synth_box.appendChild(br);       
+      }
+
+      //スケール
+      const scale = ["C3", "D3", "E3", "F3", "G3", "A3", "B3", "C4"];
+      //シンセサイザー等の設定
+      const synth = new Tone.MembraneSynth().toMaster();
+      const plucky = new Tone.FMSynth().toMaster();
+      const noiseSynth = new Tone.NoiseSynth().toMaster();
+      const monosynth = new Tone.MonoSynth({
+        oscillator: {
+          type: "sawtooth"
+        },
+        envelope: {
+          attack: 0.05
+        }
+      }).toMaster();
+
+      let step = 0;
+
+      //setInterval コールバック
+      const step_update = function() {
+        const drum_state = Array.prototype.slice.call(document.getElementsByClassName('drum'));
+        if (drum_state[step].checked == true) {
+        }
+        if (drum_state[step + beat_num-1].checked == true) {
+          noiseSynth.triggerAttackRelease("8n", 0.5);
+        }
+        if (drum_state[step + beat_num * 2].checked == true) {
+          synth.triggerAttackRelease("C2", "2n");
+        }
+        const synth_state = Array.prototype.slice.call(document.getElementsByClassName('synth'));
+
+        for (let i = 0; i < synth_num; i++) {
+          if(synth_state[step+beat_num * i].checked == true) {
+            monosynth.triggerAttackRelease(scale[synth_num - i - 1], "8n");
+          }
+        }
+
+        step++;
+        if (step > beat_num - 1) {
+          step = 0;
+        }
+      };
+
+      //setIntervalの設定
+      function startInterval(){
+          cnt ++;
+          if(cnt % 2 == 1){
+            intervalID = setInterval(step_update, 120./8./BPM*1000);
+          }else if(cnt % 2 ==0){
+            clearInterval(intervalID);
+          }
+      }
+    </script>
+
+    <style>
+    body {
+      font-family: sans-serif;
+      text-align: center;
+      background-color: gray;
+    }
+    h1{
+      font-size: 3vw;
+      background-color: white;
+      width:200px;
+    }
+    h2 {
+      font-size: 6vw;
+      background-color: white;
+      width: 1000px;
+      
+    }
+    input{
+        width:70px;
+        height:70px;
+    }
+
+    </style>
+  </body>
+</html>
