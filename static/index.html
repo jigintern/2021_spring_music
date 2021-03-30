@@ -11,7 +11,7 @@
     
   <body>
     <center>
-        <h2 width = "100">
+        <h2 width = "0">
           <!-べいびぃすたじお ->
           <img src="/img/BabyStudioLogo.png" width="900">
         </h2>
@@ -19,18 +19,18 @@
 
     <div id="Drum_box">
       <h1>
-          ドラム<br>
+          Drum<br>
       </h1>
     </div>
 
     <div id="Synth_box">
-      <h1>
-          シンセサイザー<br>
+      <h1 >
+          Synthesizer<br>
       <h1>
     </div>
-    <input type="button" value="start/stop" id="btn_startstop">
+    <input type="button" value="start/stop" class="btn_startstop">
     <button id=btn_write>保存</button>
-    <div><a href="http://localhost:8008/api/list">データ</a></div>
+    <a href="http://localhost:8008/api/list">データはこちら</a>
 
     <script type="module">
       const drum_num = 3;   //ドラム列数
@@ -103,12 +103,10 @@
         for (let i = 0; i < drum_array.length; i++)
         {
           drum_state.push(drum_array[i].checked == true);
-<<<<<<< HEAD
-=======
+
           //sampler.triggerAttackRelease(["C2", "E2", "G2", "B2"], 0.5);
           drum.triggerAttackRelease("A1", "8n");
           drum_check[step] = 1 
->>>>>>> refs/remotes/origin/main
         }
 
         if(drum_state[step] == true)
@@ -141,12 +139,12 @@
           if(synth_state[step+beat_num*i] == true)
           {
             monosynth.triggerAttackRelease(scale[synth_num-i], "8n");
-<<<<<<< HEAD
+
             synth_check[step+beat_num*i] = 1;
-=======
+
             console.log(i);
             synth_check[step+beat_num*i] = 1
->>>>>>> refs/remotes/origin/main
+
           }
         }
         console.log(synth_check);
@@ -189,16 +187,21 @@
     body {
       font-family: sans-serif;
       text-align: center;
-      background-color: gray;
+      background-color: rgb(197, 231, 129);
     }
     h1{
       font-size: 3vw;
-      background-color: white;
-      width:200px;
+      font-weight: 500;
+      background-color: rgb(156, 74, 74);
+      width:150px;
+    }
+    #Synth_box h1{
+      font-weight: 500;
+      background-color: rgb(156, 74, 74);
+      width: 300px;
     }
     h2 {
       font-size: 6vw;
-      background-color: white;
       width: 1000px;
       
     }
@@ -206,6 +209,12 @@
         width:70px;
         height:70px;
     }
+    .btn_startstop{
+      width: 70px;
+      height: 30px
+    }
+
+
 
     </style>
   </body>
