@@ -30,7 +30,8 @@
 
 
 
-    <script>
+
+    <script type="module">
       const drum_num = 3;   //ドラム列数
       const synth_num = 8;  //シンセ列数
       const beat_num = 16;   //ビート数
@@ -143,6 +144,18 @@
       }
 
       btn_startstop.onclick = startInterval;
+
+      import { fetchJSON } from "https://js.sabae.cc/fetchJSON.js";
+
+      btn_write.onclick = async () => {
+        const item = {
+            name: synth,
+            drum: drum,
+        };
+        if (await fetchJSON("api/add", item) == "ok") {
+            window.location.reload();
+        }
+    }
     </script>
 
     <style>
