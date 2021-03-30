@@ -29,7 +29,7 @@
           Synthesizer<br>
       <h1>
     </div>
-    <input type="button" value="start/stop" class="btn_startstop">
+    <input type="button" value="start/stop" id="btn_startstop" class="button_startstop">
     <button id=btn_write>保存</button>
     <a href="http://localhost:8008/api/list">データはこちら</a>
 
@@ -110,7 +110,6 @@
           drum_state.push(drum_array[i].checked == true);
 
           //sampler.triggerAttackRelease(["C2", "E2", "G2", "B2"], 0.5);
-          drum.triggerAttackRelease("A1", "8n");
           drum_check[step] = 1 
         }
 
@@ -223,7 +222,7 @@
         width:70px;
         height:70px;
     }
-    .btn_startstop{
+    .button_startstop{
       width: 70px;
       height: 30px
     }
