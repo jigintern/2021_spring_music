@@ -5,15 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/png" src="/img/BabyStudioFavicon.png">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.7.77/Tone.js"></script>
-    <script src="https://code.jquery.com/jquery-3.0.0.min.js"></script>
     <title>べいびぃすたじお</title>
   </head>
     
   <body>
     <center>
         <h2 width = "100">
-          <!-べいびぃすたじお ->
-          <img src="/img/BabyStudioLogo.png" width="900">
+            べいびぃすたじお
         </h2>
     </center>
 
@@ -24,37 +22,48 @@
     </div>
 
     <div id="Synth_box">
-      <h1>
+      <h1 class="synth">
           シンセサイザー<br>
-      <h1>
+      </h1>
     </div>
     <input type="button" value="start/stop" id="btn_startstop">
-    <button id=btn_write>保存</button>
-    <div><a href="http://localhost:8008/api/list">データ</a></div>
 
-    <script type="module">
+
+
+    <script>
       const drum_num = 3;   //ドラム列数
       const synth_num = 8;  //シンセ列数
       const beat_num = 16;   //ビート数
       let   BPM = 120.;     //BPM
       let cnt=0;
+      let num=0;
+      let head_num=1;
       let intervalID;
-
+      const beat_names = ["ドラム", "スネア", "キック"]
+      const sound_names = ["C", "D", "E", "F", "G", "A", "B", "C"];
       //チェックボックス生成
       for(let i = 0; i < drum_num; i++)
       {
+        const name1 = document.createElement("span");
+        name1.textContent = beat_names[i];
+        Drum_box.appendChild(name1);
         for(let j = 0; j < beat_num; j++)
         {
             const inpD = document.createElement("input");
             inpD.className = 'drum';
             inpD.type = "checkbox";
+            inpD.id = `${num}`;
             Drum_box.appendChild(inpD);
+            
         }
         const br = document.createElement("br");
         Drum_box.appendChild(br);       
       }
       for(let i = 0; i < synth_num; i++)
       {
+        const name2 = document.createElement("span");
+        name2.textContent = sound_names[i];
+        Synth_box.appendChild(name2);
         for(let j = 0; j < beat_num; j++)
         {
             const inpD = document.createElement("input");
@@ -77,9 +86,15 @@
           type: "sawtooth"
         },
         envelope: {
-          attack: 0.3,
-          release:0.4
+          attack: 0.3
         }
+      }).toDestination();
+      const sampler = new Tone.Sampler({
+        urls: {
+          A1: "A1.mp3",
+          A2: "A2.mp3",
+        },
+        baseUrl: "https://tonejs.github.io/audio/casio/",
       }).toDestination();
 
       const drum = new Tone.Sampler({
@@ -91,73 +106,41 @@
 
 
       let step = 0;
-      var drum_check = [];
-      var synth_check = [];
 
       //setInterval コールバック
       let step_update = function()
       {
-        const drum_array = Array.prototype.slice.call(document.getElementsByClassName('drum'));
-
-        let drum_state = [];
-        for (let i = 0; i < drum_array.length; i++)
+        Tone.start();
+        const drum_state = Array.prototype.slice.call(document.getElementsByClassName('drum'));
+        if(drum_state[step].checked == true)
         {
-          drum_state.push(drum_array[i].checked == true);
-<<<<<<< HEAD
-=======
           //sampler.triggerAttackRelease(["C2", "E2", "G2", "B2"], 0.5);
           drum.triggerAttackRelease("A1", "8n");
-          drum_check[step] = 1 
->>>>>>> refs/remotes/origin/main
         }
-
-        if(drum_state[step] == true)
+        if(drum_state[step+beat_num].checked == true)
         {
           drum.triggerAttackRelease("A2", "8n");
-          drum_check[step+beat_num] = 1
         }
-        if(drum_state[step+beat_num] == true)
-        {
-          drum.triggerAttackRelease("A1", "8n");
-        }
-        if(drum_state[step+beat_num*2] == true)
+        if(drum_state[step+beat_num*2].checked == true)
         {
           synth.triggerAttackRelease("C1", "2n");
-          drum_check[step+beat_num*2] = 1
         }
 
-
-        const synth_array = Array.prototype.slice.call(document.getElementsByClassName('synth'));
-
-        let synth_state = [];
-        for (let i = 0; i < synth_array.length; i++)
-        {
-          synth_state.push(synth_array[i].checked == true);
-        }
-        
-
+        const synth_state = Array.prototype.slice.call(document.getElementsByClassName('synth'));
         for(let i = 0; i < synth_num; i++)
         {
-          if(synth_state[step+beat_num*i] == true)
+          if(synth_state[step+beat_num*i].checked == true)
           {
             monosynth.triggerAttackRelease(scale[synth_num-i], "8n");
-<<<<<<< HEAD
-            synth_check[step+beat_num*i] = 1;
-=======
             console.log(i);
-            synth_check[step+beat_num*i] = 1
->>>>>>> refs/remotes/origin/main
           }
         }
-        console.log(synth_check);
         step++;
         if(step > beat_num-1)
         {
           step = 0;
         }
       };
-
-
 
       //setIntervalの設定
       function startInterval() {
@@ -171,18 +154,6 @@
       }
 
       btn_startstop.onclick = startInterval;
-
-      import { fetchJSON } from "https://js.sabae.cc/fetchJSON.js";
-
-      btn_write.onclick = async () => {
-        const item = {
-            drum: drum_check,
-            synth: synth_check,
-        };
-        if (await fetchJSON("api/add", item) == "ok") {
-            window.location.reload();
-        }
-    }
     </script>
 
     <style>
@@ -196,6 +167,11 @@
       background-color: white;
       width:200px;
     }
+    h1.synth{
+      font-size: 3vw;
+      background-color: white;
+      width:450px;
+    }
     h2 {
       font-size: 6vw;
       background-color: white;
@@ -203,10 +179,26 @@
       
     }
     input{
-        width:70px;
-        height:70px;
+        width:60px;
+        height:60px;
+        
     }
-
+   
+    #Drum_box span{
+      font-size: 40px;
+      background-color: wheat;
+    }
+    #Synth_box span{
+      font-size: 40px;
+      background-color: wheat;
+    }
+    #btn_startstop {
+      width: 150px;
+      height: 60px;
+      
+    }
+   
+    
     </style>
   </body>
 </html>
