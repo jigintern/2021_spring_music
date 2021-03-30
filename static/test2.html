@@ -30,8 +30,8 @@
     <br>
     <br>
 
-    <input type="button" value="start/stop" onclick="startInterval();">
-
+    <input type="button" value="start/stop" id="btn_startstop">
+    
     <script type="module">
       const drum_num = 3;   //ドラム列数
       const synth_num = 8;  //シンセ列数
@@ -105,14 +105,16 @@
       };
 
       //setIntervalの設定
-      function startInterval(){
+      function startInterval() {
           cnt ++;
-          if(cnt % 2 == 1){
+          if (cnt % 2 == 1){
             intervalID = setInterval(step_update, 120./8./BPM*1000);
-          }else if(cnt % 2 ==0){
+          } else if(cnt % 2 ==0){
             clearInterval(intervalID);
           }
       }
+
+      btn_startstop.onclick = startInterval;
     </script>
 
     <style>
